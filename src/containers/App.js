@@ -4,6 +4,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import Header from '../components/Header';
 import SearchBox from '../components/SearchBox';
 import CardList from '../components/CardList';
+import Footer from '../components/Footer';
 import './App.css';
 
 import { setSearchField, requestRobots } from '../actions';
@@ -46,6 +47,7 @@ class App extends Component {
                 <ErrorBoundary>
                     <CardList robots={filteredRobots} />
                 </ErrorBoundary>
+                <Footer />
             </Fragment>
         );
     }
