@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import ErrorBoundary from '../components/ErrorBoundary';
+import Header from '../components/Header';
 import SearchBox from '../components/SearchBox';
-import Scroll from '../components/Scroll';
 import CardList from '../components/CardList';
 import './App.css';
 
@@ -36,17 +36,17 @@ class App extends Component {
         });
 
         return isPending ? (
-            <h1 className="tc">Loading...</h1>
+            <h1 className="f1 mt5">Loading...</h1>
         ) : (
-            <div className="tc">
-                <h1 className="f1">RoboFriends</h1>
-                <SearchBox searchChange={onSearchChange} />
-                <Scroll>
-                    <ErrorBoundary>
-                        <CardList robots={filteredRobots} />
-                    </ErrorBoundary>
-                </Scroll>
-            </div>
+            <Fragment>
+                <Header>
+                    <h1 className="f1 mt5">RoboFriends</h1>
+                    <SearchBox searchChange={onSearchChange} />
+                </Header>
+                <ErrorBoundary>
+                    <CardList robots={filteredRobots} />
+                </ErrorBoundary>
+            </Fragment>
         );
     }
 }
