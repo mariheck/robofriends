@@ -2,7 +2,8 @@ import {
     CHANGE_SEARCH_FIELD,
     REQUEST_ROBOTS_PENDING,
     REQUEST_ROBOTS_SUCCESS,
-    REQUEST_ROBOTS_FAILED
+    REQUEST_ROBOTS_FAILED,
+    TOGGLE_MENTIONS_DISPLAY
 } from './constants';
 
 export const setSearchField = text => ({
@@ -19,3 +20,8 @@ export const requestRobots = () => dispatch => {
             dispatch({ type: REQUEST_ROBOTS_FAILED, payload: error })
         );
 };
+
+export const setMentionsDisplay = isDisplayed => ({
+    type: TOGGLE_MENTIONS_DISPLAY,
+    payload: isDisplayed
+});

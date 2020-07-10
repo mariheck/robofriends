@@ -2,7 +2,8 @@ import {
     CHANGE_SEARCH_FIELD,
     REQUEST_ROBOTS_PENDING,
     REQUEST_ROBOTS_SUCCESS,
-    REQUEST_ROBOTS_FAILED
+    REQUEST_ROBOTS_FAILED,
+    TOGGLE_MENTIONS_DISPLAY
 } from './constants';
 
 const initialStateSearch = {
@@ -32,6 +33,22 @@ export const requestRobots = (state = initialStateRobots, action = {}) => {
             return { ...state, robots: action.payload, isPending: false };
         case REQUEST_ROBOTS_FAILED:
             return { ...state, error: action.payload, isPending: false };
+        default:
+            return state;
+    }
+};
+
+const initialStateMentions = {
+    displayMentions: false
+};
+
+export const toggleMentionsDisplay = (
+    state = initialStateMentions,
+    action = {}
+) => {
+    switch (action.type) {
+        case TOGGLE_MENTIONS_DISPLAY:
+            return { ...state, displayMentions: action.payload };
         default:
             return state;
     }

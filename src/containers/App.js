@@ -8,7 +8,7 @@ import CardList from '../components/CardList';
 import Mentions from '../components/Mentions';
 import Footer from '../components/Footer';
 
-import { setSearchField, requestRobots } from '../actions';
+import { setSearchField, requestRobots, setMentionsDisplay } from '../actions';
 
 import './App.css';
 
@@ -17,41 +17,34 @@ const mapStateToProps = state => {
         searchField: state.searchRobots.searchField,
         robots: state.requestRobots.robots,
         isPending: state.requestRobots.isPending,
-        error: state.requestRobots.error
+        error: state.requestRobots.error,
+        displayMentions: state.toggleMentionsDisplay.displayMentions
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onSearchChange: event => dispatch(setSearchField(event.target.value)),
-        onRequestRobots: () => dispatch(requestRobots())
+        onRequestRobots: () => dispatch(requestRobots()),
+        onDisplayMentions: isMentionsDisplayed =>
+            dispatch(setMentionsDisplay(isMentionsDisplayed))
     };
 };
 
 class App extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            displayMentions: false
-        };
-    }
-
     componentDidMount() {
         this.props.onRequestRobots();
     }
 
-    onDisplayMentions = () => {
-        this.setState({ displayMentions: true });
-    };
-
-    onHideMentions = () => {
-        this.setState({ displayMentions: false });
-    };
-
     render() {
-        const { robots, isPending, searchField, onSearchChange } = this.props;
-        const { displayMentions } = this.state;
+        const {
+            robots,
+            isPending,
+            searchField,
+            displayMentions,
+            onSearchChange,
+            onDisplayMentions
+        } = this.props;
 
         const filteredRobots = robots.filter(robot =>
             robot.name.toLowerCase().includes(searchField.toLowerCase())
@@ -75,9 +68,9 @@ class App extends Component {
                         <CardList robots={filteredRobots} />
                     </ErrorBoundary>
                 ) : (
-                    <Mentions hideMentions={this.onHideMentions} />
+                    <Mentions displayMentions={onDisplayMentions} />
                 )}
-                <Footer displayMentions={this.onDisplayMentions} />
+                <Footer displayMentions={onDisplayMentions} />
             </Fragment>
         );
     }

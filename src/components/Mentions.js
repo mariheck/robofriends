@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Mentions = ({ hideMentions }) => (
+const Mentions = ({ displayMentions }) => (
     <main className="center mt7 pa4 tl w-80 ">
-        <div className="tr light-green link dim pointer" onClick={hideMentions}>
+        <div
+            className="tr light-green link dim pointer"
+            onClick={() => displayMentions(false)}
+        >
             <i className="big x icon"></i>
         </div>
 
