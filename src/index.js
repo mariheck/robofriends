@@ -10,20 +10,17 @@ import { searchRobots, requestRobots, toggleMentionsDisplay } from './reducers';
 import App from './containers/App';
 import './index.css';
 
-const middlewares = [thunkMiddleware];
 const logger = createLogger();
-
-if (process.env.NODE_ENV === 'development') {
-    middlewares.push(logger);
-}
 
 const rootReducer = combineReducers({
     searchRobots,
     requestRobots,
     toggleMentionsDisplay
 });
-
-const store = createStore(rootReducer, applyMiddleware(...middlewares));
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunkMiddleware, logger)
+);
 
 ReactDOM.render(
     <Provider store={store}>
