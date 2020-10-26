@@ -14,7 +14,7 @@ const Footer = ({ displayMentions }) => (
             className="light-green link dim ml2 pointer"
             onClick={() => displayMentions(true)}
         >
-            <i className="file alternate icon"></i>Mentions
+            <i className="file alternate icon"></i>Legal
         </span>
     </footer>
 );

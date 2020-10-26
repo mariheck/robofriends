@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import ErrorBoundary from '../components/ErrorBoundary';
 
@@ -31,49 +31,46 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-class App extends Component {
-    componentDidMount() {
-        this.props.onRequestRobots();
-    }
+const App = ({
+    robots,
+    isPending,
+    searchField,
+    displayMentions,
+    onSearchChange,
+    onRequestRobots,
+    onDisplayMentions
+}) => {
+    useEffect(() => {
+        onRequestRobots();
+    }, []);
 
-    render() {
-        const {
-            robots,
-            isPending,
-            searchField,
-            displayMentions,
-            onSearchChange,
-            onDisplayMentions
-        } = this.props;
+    const filteredRobots = robots.filter(robot =>
+        robot.name.toLowerCase().includes(searchField.toLowerCase())
+    );
 
-        const filteredRobots = robots.filter(robot =>
-            robot.name.toLowerCase().includes(searchField.toLowerCase())
-        );
-
-        return isPending ? (
-            <h1 className="f1 mt5">Loading...</h1>
-        ) : (
-            <Fragment>
-                <Header>
-                    <h1 className="f1 mt5">RoboFriends</h1>
-                    {!displayMentions ? (
-                        <SearchBox
-                            placeholder="Search robots..."
-                            searchChange={onSearchChange}
-                        />
-                    ) : null}
-                </Header>
+    return isPending ? (
+        <h1 className="f1 mt5">Loading...</h1>
+    ) : (
+        <Fragment>
+            <Header>
+                <h1 className="f1 mt5">RoboFriends</h1>
                 {!displayMentions ? (
-                    <ErrorBoundary>
-                        <CardList robots={filteredRobots} />
-                    </ErrorBoundary>
-                ) : (
-                    <Mentions displayMentions={onDisplayMentions} />
-                )}
-                <Footer displayMentions={onDisplayMentions} />
-            </Fragment>
-        );
-    }
-}
+                    <SearchBox
+                        placeholder="Search robots..."
+                        searchChange={onSearchChange}
+                    />
+                ) : null}
+            </Header>
+            {!displayMentions ? (
+                <ErrorBoundary>
+                    <CardList robots={filteredRobots} />
+                </ErrorBoundary>
+            ) : (
+                <Mentions displayMentions={onDisplayMentions} />
+            )}
+            <Footer displayMentions={onDisplayMentions} />
+        </Fragment>
+    );
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
